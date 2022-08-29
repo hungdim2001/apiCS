@@ -1,55 +1,45 @@
 package com.example.apiCS.Controller;
 
-import com.example.apiCS.Entity.Category;
+import com.example.apiCS.Dto.request.WeaponRequest;
 import com.example.apiCS.Entity.Weapon;
 import com.example.apiCS.Repository.CategoryRepository;
 import com.example.apiCS.Repository.WeaponRepository;
-import com.example.apiCS.exception.DuplicateException;
+import com.example.apiCS.Service.WeaponService;
 import com.example.apiCS.exception.NotFoundException;
 import com.example.apiCS.helper.ResponseObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
 
-@Controller
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+@RestController
 @RequestMapping("/api/weapon")
 public class WeaponController {
     @Autowired
     CategoryRepository categoryRepository;
-
     @Autowired
     WeaponRepository weaponRepository;
+    @Autowired
+    WeaponService weaponService;
 
-
-    @PostMapping("/postWeapon")
-    public ResponseEntity postWeapon(@Valid @RequestBody Weapon weapon) {
-        Category category = categoryRepository.findById(weapon.getCategoryId()).orElseThrow(() -> new NotFoundException(HttpStatus.NOT_FOUND, "not found"));
-        if (weaponRepository.existsByName(weapon.getName())) {
-            throw new DuplicateException(HttpStatus.CONFLICT, "duplicate weapon");
-        }
-        Collection<Weapon> weaponList = category.getWeapons();
-        weaponList.add(weapon);
-        category.setWeapons(weaponList);
-//        categoryRepository.saveAndFlush(category); // save
-        weaponRepository.saveAndFlush(weapon);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "created weapon successfully", weapon));
+    @RequestMapping(path = "/postWeapon", method = POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity postWeapon(@ModelAttribute @Valid WeaponRequest weaponRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "created weapon successfully", weaponService.postWeapon(weaponRequest)));
     }
 
     @GetMapping("/listWeapon")
     public ResponseEntity getListWeapon() {
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "get list weapons successfully", weaponRepository.findAll()));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "get list weapons successfully", weaponService.getAllWeapon()));
     }
+
     @GetMapping("/listWeapon/{categoryId}")
     public ResponseEntity getListWeaponByCategoryId(@PathVariable Long categoryId) {
-        List<Weapon> listWeapon = weaponRepository.findByCategoryId(categoryId);
-        if (listWeapon.isEmpty()) {
-            throw new NotFoundException(HttpStatus.NOT_FOUND, "not found");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "get list weapons by category ID successfully", listWeapon));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "get list weapons by category ID successfully", weaponService.getListWeaponByCategoryId(categoryId)));
     }
 }

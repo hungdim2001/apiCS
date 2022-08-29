@@ -31,6 +31,7 @@ public class ProductController {
 
     @PostMapping("/postProduct")
     public ResponseEntity postProduct(@Valid @RequestBody Product product) {
+
         if (!weaponRepository.existsById(product.getWeaponId())) {
             throw new NotFoundException(HttpStatus.NOT_FOUND, "Not found weapon id");
         } else if (productRepository.existsByName(product.getName())) {

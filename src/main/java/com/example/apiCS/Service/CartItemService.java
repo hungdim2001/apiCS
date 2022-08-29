@@ -10,6 +10,7 @@ import com.example.apiCS.Entity.User;
 import com.example.apiCS.Repository.CartItemRepository;
 import com.example.apiCS.Repository.ProductRepository;
 import com.example.apiCS.Repository.UserRepository;
+import com.example.apiCS.commons.Utils.BeanUtils;
 import com.example.apiCS.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;

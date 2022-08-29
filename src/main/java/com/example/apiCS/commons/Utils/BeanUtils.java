@@ -1,4 +1,4 @@
-package com.example.apiCS.Service;
+package com.example.apiCS.commons.Utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

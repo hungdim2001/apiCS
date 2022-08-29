@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorResponse {
+public class   ErrorResponse {
     private final boolean success = false;
     private HttpStatus status;
     private String message;
