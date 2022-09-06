@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Password {
     boolean containsDigit() default false;
-    String message() default "Sai mật khẩu";
+    String message() default "password is incorrect format";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

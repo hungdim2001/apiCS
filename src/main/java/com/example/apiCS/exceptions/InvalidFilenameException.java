@@ -1,4 +1,4 @@
-package com.example.apiCS.exception;
+package com.example.apiCS.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
