@@ -1,7 +1,7 @@
 package com.example.apiCS.Controller;
 
 import com.example.apiCS.Security.Jwt.JwtUtils;
-import com.example.apiCS.annotation.Respone.UserResponse;
+import com.example.apiCS.Dto.Respone.UserResponse;
 import com.example.apiCS.Dto.request.LoginRequest;
 import com.example.apiCS.Dto.request.RegisterRequest;
 import com.example.apiCS.Entity.ERole;
