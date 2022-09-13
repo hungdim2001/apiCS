@@ -1,4 +1,4 @@
-package com.example.apiCS.Dto.Respone;
+package com.example.apiCS.annotation.Respone;
 
 import lombok.Builder;
 import lombok.Data;

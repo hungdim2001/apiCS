@@ -21,7 +21,10 @@ public class AmazonConfig {
     private String accessKey;
     @Value("${amazonProperties.secretKey}")
     private String secretKey;
-
+    //    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
     @Bean
     public AmazonS3 initializeAmazon() {
         final BasicAWSCredentials basicAwsCredentials = new BasicAWSCredentials(accessKey, secretKey);
