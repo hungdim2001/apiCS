@@ -1,4 +1,4 @@
-package com.example.apiCS.Dto.Respone;
+package com.example.apiCS.annotation.Respone;
 
 import com.example.apiCS.Entity.Product;
 import lombok.Builder;

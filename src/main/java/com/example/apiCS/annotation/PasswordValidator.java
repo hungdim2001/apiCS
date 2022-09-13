@@ -8,15 +8,15 @@ import java.util.regex.Pattern;
 
 public class PasswordValidator implements ConstraintValidator<Password, String> {
     private Password ann;
-
-
-    @Override
     public void initialize(Password ann) {
         this.ann = ann;
     }
 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext cxt) {
+        if(password==null){
+            return false;
+        }
         if (password.toLowerCase().equals(password)) {
             cxt.disableDefaultConstraintViolation();
             cxt.buildConstraintViolationWithTemplate("Mật khẩu phải chứa in hoa.").addConstraintViolation();

@@ -3,10 +3,11 @@ package com.example.apiCS.Controller;
 import com.example.apiCS.Entity.Product;
 import com.example.apiCS.Repository.ProductRepository;
 import com.example.apiCS.Repository.WeaponRepository;
-import com.example.apiCS.exception.DuplicateException;
-import com.example.apiCS.exception.NotFoundException;
+import com.example.apiCS.exceptions.DuplicateException;
+import com.example.apiCS.exceptions.NotFoundException;
 import com.example.apiCS.helper.ResponseObj;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -67,11 +68,11 @@ public class ProductController {
     public ResponseEntity getProductByWeaponIDAndPagination(@RequestParam(name = "id") Long WeaponId,
                                                             @RequestParam(name = "page") int page,
                                                             @RequestParam(name = "quantity") int quantity,
-                                                            @RequestParam(name = "orderBy", defaultValue = "NAME") String orderBy,
+                                                            @RequestParam(name = "orderBy", defaultValue = "name") String orderBy,
                                                             @RequestParam(name = "ASC", defaultValue = "true") boolean ASC) {
         Pageable paging = PageRequest.of(page, quantity, ASC ? Sort.Direction.ASC : Sort.Direction.DESC, orderBy);
 
-        List<Product> products = productRepository.findAllAndSort(WeaponId, paging);
+        Page<Product> products = productRepository.findAllAndSort(WeaponId, paging);
         if (products.isEmpty()) {
             throw new NotFoundException(HttpStatus.NOT_FOUND, "not found weaponID");
         }

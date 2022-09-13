@@ -1,12 +1,11 @@
-package com.example.apiCS.exception;
+package com.example.apiCS.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-
 @Getter
 @AllArgsConstructor
-public class NotFoundException extends RuntimeException{
+public class InvalidFilenameException  extends  RuntimeException {
     private HttpStatus status;
     private String message;
 }

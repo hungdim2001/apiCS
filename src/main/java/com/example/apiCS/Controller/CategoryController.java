@@ -2,7 +2,7 @@ package com.example.apiCS.Controller;
 
 import com.example.apiCS.Entity.Category;
 import com.example.apiCS.Repository.CategoryRepository;
-import com.example.apiCS.exception.DuplicateException;
+import com.example.apiCS.exceptions.DuplicateException;
 import com.example.apiCS.helper.ResponseObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

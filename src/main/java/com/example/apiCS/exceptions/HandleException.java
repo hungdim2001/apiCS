@@ -1,4 +1,4 @@
-package com.example.apiCS.exception;
+package com.example.apiCS.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +61,7 @@ public class HandleException {
                     }
                 }
         );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, errors.toString(), HttpStatus.BAD_REQUEST.value()));
 
     }
 

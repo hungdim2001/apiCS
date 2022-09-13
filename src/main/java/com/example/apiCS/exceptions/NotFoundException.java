@@ -1,14 +1,12 @@
-package com.example.apiCS.exception;
+package com.example.apiCS.exceptions;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
+
 @Getter
 @AllArgsConstructor
-public class DuplicateException  extends  RuntimeException{
+public class NotFoundException extends RuntimeException{
     private HttpStatus status;
     private String message;
-
-
 }

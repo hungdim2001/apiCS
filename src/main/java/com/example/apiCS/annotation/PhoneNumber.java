@@ -5,12 +5,11 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = PasswordValidator.class)
+@Constraint(validatedBy = PhoneNumberValidation.class)
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Password {
-    boolean containsDigit() default false;
-    String message() default "password is incorrect format";
+public @interface PhoneNumber {
+    String message() default "phone number must not be blank";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

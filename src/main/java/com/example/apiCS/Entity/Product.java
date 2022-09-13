@@ -23,7 +23,7 @@ public class Product {
     private String name;
     @NotBlank
     @Column(columnDefinition = "TEXT", length = 2048)
-    private String image;
+    private String imageUrl;
     @NotNull
     private Float price;
     @NotNull

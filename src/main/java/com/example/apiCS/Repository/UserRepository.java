@@ -13,11 +13,10 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     boolean existsByEmail(String email);
 
-    boolean existsByUsername(String username);
+    boolean existsByUserName(String username);
 
 
-    //    Optional<User> findByEmailOrUsername(String account );
-    @Query(value = "SELECT u FROM User u WHERE u.username =?1 OR u.email = ?1")
+    @Query(value = "SELECT u FROM User u WHERE u.userName =?1 OR u.email = ?1")
     Optional<User> findByUsernameOrEmail(String account);
 
 }
