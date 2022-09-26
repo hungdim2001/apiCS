@@ -24,49 +24,49 @@ import static com.example.apiCS.Specification.CartItemSpecification.getByUserId;
 
 @Service
 public class CartItemService {
-    @Autowired
-    CartItemRepository cartItemRepository;
-    @Autowired
-    UserRepository userRepository;
+//    @Autowired
+//    CartItemRepository cartItemRepository;
+//    @Autowired
+//    UserRepository userRepository;
+//
+//    @Autowired
+//    ProductRepository productRepository;
+//
+//    public CartItemResponse getCartItemByUserId(Long id) {
+//        System.out.println(BeanUtils.getBean(AuthController.class));
+//        Specification conditions = Specification.where(getByUserId(id));
+//        List<CartItem> cartItem = cartItemRepository.findAll(conditions);
+//        if (cartItem.isEmpty()) {
+//            throw new NotFoundException(HttpStatus.NOT_FOUND, "Not found user id in cart item");
+//        }
+//        List<ItemResponse> dataResponse = cartItem.stream().map(
+//                (item) -> ItemResponse.builder().product(item.getProduct()).quantity(item.getQuantity()).build()
+//        ).collect(Collectors.toList());
+//        CartItemResponse cartItemResponse = CartItemResponse.builder().cartItemId(id).data(dataResponse).build();
+//        return cartItemResponse;
+//    }
 
-    @Autowired
-    ProductRepository productRepository;
-
-    public CartItemResponse getCartItemByUserId(Long id) {
-        System.out.println(BeanUtils.getBean(AuthController.class));
-        Specification conditions = Specification.where(getByUserId(id));
-        List<CartItem> cartItem = cartItemRepository.findAll(conditions);
-        if (cartItem.isEmpty()) {
-            throw new NotFoundException(HttpStatus.NOT_FOUND, "Not found user id in cart item");
-        }
-        List<ItemResponse> dataResponse = cartItem.stream().map(
-                (item) -> ItemResponse.builder().product(item.getProduct()).quantity(item.getQuantity()).build()
-        ).collect(Collectors.toList());
-        CartItemResponse cartItemResponse = CartItemResponse.builder().cartItemId(id).data(dataResponse).build();
-        return cartItemResponse;
-    }
-
-    public CartItemResponse postCartItem(CartItemRequest cartItemRequest) {
-        User user = userRepository.findById(cartItemRequest.getCartId()).orElseThrow(
-                () -> new NotFoundException(HttpStatus.NOT_FOUND, "Not found user id")
-        );
-        cartItemRepository.deleteAllByUserId(cartItemRequest.getCartId());
-        List<CartItem> listCartItem = cartItemRequest.getData().stream().map(itemRequest -> {
-            Product product = productRepository.findById(itemRequest.getProductId()).orElseThrow(
-                    () -> new NotFoundException(HttpStatus.NOT_FOUND, "Not found product id")
-            );
-            return CartItem.builder()
-                    .quantity(itemRequest.getQuantity())
-                    .product(product)
-                    .user(user).
-                    build();
-        }).toList();
-        user.setCartItems(listCartItem);
-        List<CartItem> listCartItemSave = cartItemRepository.saveAll(listCartItem);
-        List<ItemResponse> dataResponse = listCartItemSave.stream().map(
-                (item) -> ItemResponse.builder().product(item.getProduct()).quantity(item.getQuantity()).build()
-        ).collect(Collectors.toList());
-        CartItemResponse cartItemResponse = CartItemResponse.builder().cartItemId(cartItemRequest.getCartId()).data(dataResponse).build();
-        return cartItemResponse;
-    }
+//    public CartItemResponse postCartItem(CartItemRequest cartItemRequest) {
+//        User user = userRepository.findById(cartItemRequest.getCartId()).orElseThrow(
+//                () -> new NotFoundException(HttpStatus.NOT_FOUND, "Not found user id")
+//        );
+//        cartItemRepository.deleteAllByUserId(cartItemRequest.getCartId());
+//        List<CartItem> listCartItem = cartItemRequest.getData().stream().map(itemRequest -> {
+//            Product product = productRepository.findById(itemRequest.getProductId()).orElseThrow(
+//                    () -> new NotFoundException(HttpStatus.NOT_FOUND, "Not found product id")
+//            );
+//            return CartItem.builder()
+//                    .quantity(itemRequest.getQuantity())
+//                    .product(product)
+//                    .user(user).
+//                    build();
+//        }).toList();
+//        user.setCartItems(listCartItem);
+//        List<CartItem> listCartItemSave = cartItemRepository.saveAll(listCartItem);
+//        List<ItemResponse> dataResponse = listCartItemSave.stream().map(
+//                (item) -> ItemResponse.builder().product(item.getProduct()).quantity(item.getQuantity()).build()
+//        ).collect(Collectors.toList());
+//        CartItemResponse cartItemResponse = CartItemResponse.builder().cartItemId(cartItemRequest.getCartId()).data(dataResponse).build();
+//        return cartItemResponse;
+//    }
 }

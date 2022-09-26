@@ -23,34 +23,37 @@ public class WeaponService {
     CategoryRepository categoryRepository;
     @Autowired
     WeaponRepository weaponRepository;
-    public Weapon postWeapon(@ModelAttribute @Valid WeaponRequest weaponRequest) {
+    @Autowired
+    UploadFile uploadFileService;
+
+    public Weapon postWeapon(WeaponRequest weaponRequest) {
         String filename = weaponRequest.getName();
         String folder = "weapon";
         Category category = categoryRepository.findById(weaponRequest.getCategoryId()).orElseThrow(() -> new NotFoundException(HttpStatus.NOT_FOUND, "not found category id"));
         if (weaponRepository.existsByName(weaponRequest.getName())) {
             throw new DuplicateException(HttpStatus.CONFLICT, "duplicate weapon");
         }
-        Collection<Weapon> weaponList = category.getWeapons();
-        String image = UploadFile.uploadFile(weaponRequest.getImage(), filename, folder);
+        List<Weapon> weaponList = category.getListWeapon();
+        String image = uploadFileService.uploadFile(weaponRequest.getImage(), filename, folder);
         Weapon weapon = Weapon.builder().
                 name(weaponRequest.getName()).
-                amount(weaponRequest.getQuantity()).
-                categoryId(weaponRequest.getCategoryId()).
-                image(image).build();
+                imageUrl(image).build();
         weaponList.add(weapon);
-        category.setWeapons(weaponList);
+        category.setListWeapon(weaponList);
         Weapon weaponSave = weaponRepository.saveAndFlush(weapon);
         return weaponSave;
     }
-    public List<Weapon> getAllWeapon () {
+
+    public List<Weapon> getAllWeapon() {
         return weaponRepository.findAll();
     }
-    public List<Weapon> getListWeaponByCategoryId(Long id){
-        List<Weapon> listWeapon = weaponRepository.findByCategoryId(id);
-        if (listWeapon.isEmpty()) {
-            throw new NotFoundException(HttpStatus.NOT_FOUND, "not found id weapon");
-        }
-        return listWeapon;
+
+    public void getListWeaponByCategoryId(Long id) {
+//        List<Weapon> listWeapon = weaponRepository.findByCategoryId(id);
+//        if (listWeapon.isEmpty()) {
+//            throw new NotFoundException(HttpStatus.NOT_FOUND, "not found id weapon");
+//        }
+//        return listWeapon;
 
     }
 

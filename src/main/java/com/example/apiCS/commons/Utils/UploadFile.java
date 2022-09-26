@@ -8,21 +8,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.Unsafe;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 @Slf4j
-public final class UploadFile {
+@Service
+public  class UploadFile {
 
     @Autowired
-    private static AmazonS3 s3Client;  //TODO: fix null
+    private   AmazonS3 s3Client;  //TODO: fix null
     @Value("${amazonProperties.bucketName}")
-    private static String bucketName;
+    private  String bucketName;
 
-    private static File convertMultiPartFileToFile(MultipartFile file) {
+    private  File convertMultiPartFileToFile(MultipartFile file) {
         File convertedFile = new File(file.getOriginalFilename());
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
             fos.write(file.getBytes());
@@ -32,7 +35,7 @@ public final class UploadFile {
         return convertedFile;
     }
 
-    public static String uploadFile(MultipartFile file, String filename, String folder) {
+    public  String uploadFile(MultipartFile file, String filename, String folder) {
         // check valid filename extension
         String filenameExtension = file.getOriginalFilename().
                 substring(file.getOriginalFilename().lastIndexOf(".") + 1);

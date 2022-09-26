@@ -13,18 +13,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AmazonConfig {
-    private AmazonS3 s3client;
-
+//    private AmazonS3 s3client;
     @Value("${amazonProperties.endpointUrl}")
     private String s3RegionName;
     @Value("${amazonProperties.accessKey}")
     private String accessKey;
     @Value("${amazonProperties.secretKey}")
     private String secretKey;
-    //    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
     @Bean
     public AmazonS3 initializeAmazon() {
         final BasicAWSCredentials basicAwsCredentials = new BasicAWSCredentials(accessKey, secretKey);

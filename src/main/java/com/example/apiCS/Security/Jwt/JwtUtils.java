@@ -1,40 +1,43 @@
 package com.example.apiCS.Security.Jwt;
 
-import com.example.apiCS.Security.Service.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @Component
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-
-    private String jwtSecret = "abc";
-
-
-    private int jwtExpirationMs =86400000;
-
-    public String generateJwtToken(Authentication authentication) {
-
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
-        return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+    @Value("${csApi.jwtSecret}")
+    private String jwtSecret;
+    private String jwtRF = "refreshToken";
+    @Value("${csApi.aJwtExpirationMs}")
+    private int aJwtExpirationMs;
+    @Value("${csApi.rJwtExpirationMs}")
+    private int rJwtExpirationMs;
+    public String generateJwtToken(Long id, boolean accessToken) {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, 30);
+        if (accessToken) {
+            return Jwts.builder().setSubject((id.toString())).setIssuedAt(new Date())
+                    .setExpiration(new Date((new Date()).getTime() + aJwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+                    .compact();
+        }
+        return Jwts.builder().setSubject(id.toString()).setIssuedAt(new Date())
+                .setExpiration(c.getTime()).signWith(SignatureAlgorithm.HS512, jwtRF)
                 .compact();
     }
 
-    public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    public String getIdFromJwtToken(String token, boolean access) {
+        return Jwts.parser().setSigningKey(access?jwtSecret:jwtRF).parseClaimsJws(token).getBody().getSubject();
     }
-
-    public boolean validateJwtToken(String authToken) {
+    public boolean validateJwtToken(String authToken, boolean access) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(access?jwtSecret:jwtRF).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());
@@ -50,4 +53,5 @@ public class JwtUtils {
 
         return false;
     }
+
 }

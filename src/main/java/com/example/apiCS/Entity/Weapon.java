@@ -1,11 +1,9 @@
 package com.example.apiCS.Entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 @Entity
@@ -18,12 +16,12 @@ public class Weapon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
     private String name;
-    @NotBlank
-    private String image;
-    private int amount;
-    @NotNull
-    @JsonProperty("category_id")
-    private Long categoryId;
+    private String imageUrl;
+    @OneToMany
+    @JoinTable(	name = "weapon_prouduct",
+            joinColumns = @JoinColumn(name = "weapon_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> listProduct;
+
 }

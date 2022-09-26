@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface WeaponRepository extends JpaRepository<Weapon, Long> {
-    List<Weapon> findByCategoryId(Long CategoryId);
+//    List<Weapon> findByCategoryId(Long CategoryId);
     boolean existsById(Long id);
     boolean existsByName(String name);
 }

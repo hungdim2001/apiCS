@@ -25,18 +25,18 @@ public class WeaponController {
     @Autowired
     WeaponService weaponService;
 
-    @RequestMapping(path = "/postWeapon", method = POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @RequestMapping(path = "/weapons", method = POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity postWeapon(@ModelAttribute @Valid WeaponRequest weaponRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "created weapon successfully", weaponService.postWeapon(weaponRequest)));
     }
 
-    @GetMapping("/listWeapon")
+    @GetMapping("/weapons")
     public ResponseEntity getListWeapon() {
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "get list weapons successfully", weaponService.getAllWeapon()));
     }
 
-    @GetMapping("/listWeapon/{categoryId}")
-    public ResponseEntity getListWeaponByCategoryId(@PathVariable Long categoryId) {
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "get list weapons by category ID successfully", weaponService.getListWeaponByCategoryId(categoryId)));
-    }
+//    @GetMapping("/weapon/{categoryId}")
+//    public ResponseEntity getListWeaponByCategoryId(@PathVariable Long categoryId) {
+//        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "get list weapons by category ID successfully", weaponService.getListWeaponByCategoryId(categoryId)));
+//    }
 }

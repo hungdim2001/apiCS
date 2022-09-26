@@ -19,16 +19,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
     private String name;
-    @NotBlank
     @Column(columnDefinition = "TEXT", length = 2048)
     private String imageUrl;
-    @NotNull
     private Float price;
-    @NotNull
-    @JsonProperty(value = "weapon_id")
-    private Long weaponId;
-//    @OneToOne(mappedBy = "product")
-//    private CartItem cartItem;
+    private int quantity;
 }

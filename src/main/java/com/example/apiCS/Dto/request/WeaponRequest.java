@@ -12,8 +12,6 @@ public class WeaponRequest {
     private String name;
     @NotNull(message = "image is require")
     private MultipartFile image;
-    @NotNull(message = "quantity is require")
-    private Integer quantity;
     @NotNull(message = "category id is require")
     private Long categoryId;
 }

@@ -19,19 +19,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Size(min = 6, max = 32)
     private String userName;
     private String password;
     private String avatarUrl;
-    @Email
-
     private String email;
+    private String phone;
+    private String address;
+    private String firstName;
+    private String lastName;
     @OneToOne
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private  Role role;
-    @OneToMany(mappedBy = "user")
-    private List<CartItem> cartItems;
 }

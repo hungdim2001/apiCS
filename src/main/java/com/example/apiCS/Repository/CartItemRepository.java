@@ -14,7 +14,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long>, JpaSp
     @Modifying
     @Query(value = "delete from cart_item c where c.user_id = ?1", nativeQuery = true)
     void deleteAllByUserId(Long id);
-
     @Query(value = "select count(c)>0 from cart_item c  where c.user_id = ?1", nativeQuery = true)
     Boolean existsByUserId(Long id);
+//    Boolean findBy
 }
