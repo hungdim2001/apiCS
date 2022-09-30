@@ -23,12 +23,19 @@ public class HandleException {
         return ResponseEntity.status(ex.getStatus()).body(new ErrorResponse(ex.getStatus(), ex.getMessage(), ex.getStatus().value()));
     }
 
-//    @ExceptionHandler(Exception.class)
+    //    @ExceptionHandler(Exception.class)
 //    @ResponseStatus(value = HttpStatus.CONFLICT)
 //    public ResponseEntity handleException(Exception ex) {
 //        ex.printStackTrace();
 //        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ErrorResponse(HttpStatus.EXPECTATION_FAILED, ex.getMessage(), HttpStatus.EXPECTATION_FAILED.value()));
 //    }
+    @ExceptionHandler(InvalidRefreshToken.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseEntity handleInvalidRefreshException(InvalidRefreshToken ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(ex.getStatus()).body(new ErrorResponse(ex.getStatus(), ex.getMessage(), ex.getStatus().value()));
+
+    }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)

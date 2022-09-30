@@ -24,4 +24,5 @@ public class Product {
     private String imageUrl;
     private Float price;
     private int quantity;
+    private int rate;
 }

@@ -35,8 +35,10 @@ public class WeaponController {
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "get list weapons successfully", weaponService.getAllWeapon()));
     }
 
-//    @GetMapping("/weapon/{categoryId}")
-//    public ResponseEntity getListWeaponByCategoryId(@PathVariable Long categoryId) {
+    @GetMapping("/weapons/{categoryId}")
+    public void getListWeaponByCategoryId(@PathVariable Long categoryId) {
 //        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObj(HttpStatus.OK.value(), true, "get list weapons by category ID successfully", weaponService.getListWeaponByCategoryId(categoryId)));
-//    }
+
+
+    }
 }
