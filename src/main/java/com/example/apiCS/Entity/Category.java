@@ -16,10 +16,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany
-    @JoinTable(	name = "category_weapon",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "weapon_id"))
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "category")
     private List<Weapon> listWeapon;
 }
     

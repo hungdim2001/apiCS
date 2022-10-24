@@ -23,6 +23,9 @@ public class Product {
     @Column(columnDefinition = "TEXT", length = 2048)
     private String imageUrl;
     private Float price;
+    @ManyToOne
+    @JoinColumn(name = "weapon_id")
+    private Weapon weapon;
     private int quantity;
     private int rate;
 }

@@ -29,7 +29,8 @@ public class WeaponService {
     public Weapon postWeapon(WeaponRequest weaponRequest) {
         String filename = weaponRequest.getName();
         String folder = "weapon";
-        Category category = categoryRepository.findById(weaponRequest.getCategoryId()).orElseThrow(() -> new NotFoundException(HttpStatus.NOT_FOUND, "not found category id"));
+        Category category = categoryRepository.findById(weaponRequest.getCategoryId()).orElseThrow(() ->
+                new NotFoundException(HttpStatus.NOT_FOUND, "not found category id"));
         if (weaponRepository.existsByName(weaponRequest.getName())) {
             throw new DuplicateException(HttpStatus.CONFLICT, "duplicate weapon");
         }
@@ -37,7 +38,9 @@ public class WeaponService {
         String image = uploadFileService.uploadFile(weaponRequest.getImage(), filename, folder);
         Weapon weapon = Weapon.builder().
                 name(weaponRequest.getName()).
-                imageUrl(image).build();
+                imageUrl(image).
+                category(category)
+                .build();
         weaponList.add(weapon);
         category.setListWeapon(weaponList);
         Weapon weaponSave = weaponRepository.saveAndFlush(weapon);

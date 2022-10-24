@@ -84,7 +84,7 @@ public class AuthService {
         return LoginResponse
                 .builder()
                 .id(userResponse.getId())
-                .imageUrl(userResponse.getAvatarUrl())
+                .avatarUrl(userResponse.getAvatarUrl())
                 .fullName(userResponse.getLastName() + " " + userResponse.getFirstName())
                 .role(userResponse.getRole().getName().toString())
                 .accessToken(accessToken)

@@ -11,5 +11,5 @@ public class LoginResponse {
     private String refreshToken;
     private String fullName;
     private String role;
-    private String  imageUrl;
+    private String  avatarUrl;
 }

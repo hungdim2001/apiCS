@@ -1,5 +1,6 @@
 package com.example.apiCS.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,10 +19,11 @@ public class Weapon {
     private Long id;
     private String name;
     private String imageUrl;
-    @OneToMany
-    @JoinTable(	name = "weapon_prouduct",
-            joinColumns = @JoinColumn(name = "weapon_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "category_id")
+    private Category category;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "weapon")
     private List<Product> listProduct;
 
 }
