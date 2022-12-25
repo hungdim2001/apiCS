@@ -1,5 +1,10 @@
 package com.example.apiCS.Entity;
-import lombok.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,7 +21,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String icon;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "category")
-    private List<Weapon> listWeapon;
+    private List<Product> listProduct;
 }
     

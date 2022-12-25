@@ -19,25 +19,44 @@ public class JwtUtils {
     private int aJwtExpirationMs;
     @Value("${csApi.rJwtExpirationMs}")
     private int rJwtExpirationMs;
-    public String generateJwtToken(Long id, boolean accessToken) {
+
+    public TokenType generateJwtToken(Long id, boolean accessToken) {
+
+        if (accessToken) {
+            return TokenType.builder().token(Jwts.builder().setSubject((id.toString())).setIssuedAt(new Date())
+                    .setExpiration(new Date((new Date()).getTime() + rJwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+                    .compact()).expiresIn(new Date((new Date()).getTime() + aJwtExpirationMs).getTime()).build();
+        }
+        //              .setExpiration(new Date((new Date()).getTime() + 60000)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+        //            .compact()).expiresIn(new Date((new Date()).getTime() + 60000).getTime()).build();}
+
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, 30);
-        if (accessToken) {
-            return Jwts.builder().setSubject((id.toString())).setIssuedAt(new Date())
-                    .setExpiration(new Date((new Date()).getTime() + aJwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
-                    .compact();
-        }
-        return Jwts.builder().setSubject(id.toString()).setIssuedAt(new Date())
+        return TokenType.builder().token(Jwts.builder().setSubject(id.toString()).setIssuedAt(new Date())
                 .setExpiration(c.getTime()).signWith(SignatureAlgorithm.HS512, jwtRF)
-                .compact();
+                .compact()).expiresIn(c.getTime().getTime()).build();
+        //    .setExpiration(new Date((new Date()).getTime() + 120000)).signWith(SignatureAlgorithm.HS512, jwtRF)
+        // .compact()).expiresIn(new Date((new Date()).getTime() + 120000).getTime()).build();
+
     }
 
+//    public TokenType generateJwtToken(Long id) {
+//        return TokenType.builder().token(Jwts.builder().setSubject((id.toString())).setIssuedAt(new Date())
+//                .setExpiration(new Date((new Date()).getTime() + 864000000)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+//                .compact()).expiresIn(new Date((new Date()).getTime() + 864000000).getTime()).build();
+//        //              .setExpiration(new Date((new Date()).getTime() + 60000)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+//        //            .compact()).expiresIn(new Date((new Date()).getTime() + 60000).getTime()).build();}
+//
+//
+//    }
+
     public String getIdFromJwtToken(String token, boolean access) {
-        return Jwts.parser().setSigningKey(access?jwtSecret:jwtRF).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(access ? jwtSecret : jwtRF).parseClaimsJws(token).getBody().getSubject();
     }
+
     public boolean validateJwtToken(String authToken, boolean access) {
         try {
-            Jwts.parser().setSigningKey(access?jwtSecret:jwtRF).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(access ? jwtSecret : jwtRF).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());

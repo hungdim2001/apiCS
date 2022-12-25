@@ -14,8 +14,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
     private ERole name;
@@ -23,7 +23,6 @@ public class Role {
 
     /*
     INSERT INTO roles(name) VALUES('ROLE_USER');
-INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
 INSERT INTO roles(name) VALUES('ROLE_ADMIN');
     * */
 }

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @Data
 public class LoginRequest {
-    @NotBlank
+    @NotBlank(message = "abc")
     private  String account;
     @NotBlank
     private String password;

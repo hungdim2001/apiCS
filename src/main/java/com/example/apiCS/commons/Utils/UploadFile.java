@@ -2,6 +2,7 @@ package com.example.apiCS.commons.Utils;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.apiCS.exceptions.InvalidFilenameException;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.Unsafe;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,6 +54,10 @@ public  class UploadFile {
         fileObj.delete();
 
         return "https://csgoapi.s3.ap-southeast-1.amazonaws.com/" + folder + "/" + filename.replace(" ", "+") + "." + filenameExtension;
+    }
+    public void deleteFile(final String fileName){
+        final DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucketName, fileName);
+        s3Client.deleteObject(deleteObjectRequest);
     }
 
 }

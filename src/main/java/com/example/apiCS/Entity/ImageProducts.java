@@ -4,26 +4,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
-
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "Weapons")
-public class Weapon {
+@Table(name = "Image_Products")
+public class ImageProducts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    @Column(columnDefinition = "TEXT", length = 2048)
     private String imageUrl;
     @ManyToOne
+    @JoinColumn(name = "product_id")
     @JsonIgnore
-    @JoinColumn(name = "category_id")
-    private Category category;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "weapon")
-    private List<Product> listProduct;
+    private Product product;
 
 }

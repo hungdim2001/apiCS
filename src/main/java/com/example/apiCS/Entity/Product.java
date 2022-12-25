@@ -1,12 +1,11 @@
 package com.example.apiCS.Entity;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,12 +19,15 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Column(columnDefinition = "TEXT", length = 2048)
-    private String imageUrl;
     private Float price;
+    private Float priceSale;
+    @Column(columnDefinition = "TEXT", length = 2048)
+    private String description;
+    private String thumbnail;
     @ManyToOne
-    @JoinColumn(name = "weapon_id")
-    private Weapon weapon;
-    private int quantity;
-    private int rate;
+    @JoinColumn(name = "category_id")
+    @JsonIgnore
+    private Category category;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
+    private List<ImageProducts> imageProductsList;
 }

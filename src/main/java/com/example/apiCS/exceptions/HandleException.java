@@ -17,7 +17,6 @@ public class HandleException {
     @ExceptionHandler(DuplicateException.class)
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public ResponseEntity handleDuplicateException(DuplicateException ex) {
-        // quá trình kiểm soat lỗi diễn ra ở đây
         ex.printStackTrace();
 
         return ResponseEntity.status(ex.getStatus()).body(new ErrorResponse(ex.getStatus(), ex.getMessage(), ex.getStatus().value()));
@@ -92,5 +91,11 @@ public class HandleException {
     public ResponseEntity handleBindingException(MaxUploadSizeExceededException ex) {
         ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "file must less than 10MB", HttpStatus.BAD_REQUEST.value()));
+    }
+    @ExceptionHandler(InvalidLoginException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseEntity handleInvalidLoginException(InvalidLoginException ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ex.getStatus(), ex.getMessage(), ex.getStatus().value()));
     }
 }

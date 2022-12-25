@@ -6,31 +6,31 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl implements UserDetails  {
     private Long id;
-
-    private String username;
+    private Map<String, Object> attributes;
+    private String phone;
 
     private String email;
 
     @JsonIgnore
     private String password;
     GrantedAuthority authorities;
+
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List< GrantedAuthority> collectionAuthorities =  new ArrayList<>();
         collectionAuthorities.add(authorities);
         return collectionAuthorities;
     }
-    public UserDetailsImpl(Long id, String username, String email, String password,
+    public UserDetailsImpl(Long id, String phone, String email, String password,
                            GrantedAuthority authority) {
         this.id = id;
-        this.username = username;
+        this.phone = phone;
         this.email = email;
         this.password = password;
         this.authorities = authority;
@@ -39,12 +39,22 @@ public class UserDetailsImpl implements UserDetails {
         GrantedAuthority authority =new SimpleGrantedAuthority(user.getRole().getName().name());
         return new UserDetailsImpl(
                 user.getId(),
-                user.getUserName(),
+                user.getPhone(),
                 user.getEmail(),
                 user.getPassword(),
                 authority);
     }
-    public Long geId() {
+    public static UserDetailsImpl create(User user, Map<String, Object> attributes) {
+        UserDetailsImpl userPrincipal = UserDetailsImpl.build(user);
+        userPrincipal.setAttributes(attributes);
+        return userPrincipal;
+    }
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+
+    public Long getId() {
         return id;
     }
     public String getEmail() {
@@ -57,7 +67,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return phone;
     }
 
     @Override
@@ -88,4 +98,8 @@ public class UserDetailsImpl implements UserDetails {
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id, user.id);
     }
+
+
+
+
 }

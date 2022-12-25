@@ -5,10 +5,9 @@ import lombok.Data;
 
 @Data
 @Builder
-
-public class WeaponResponse {
-    private Long id;
+public class ProductResponse {
     private String name;
     private String imageUrl;
-
+    private Float price;
+    private Float priceSale;
 }
